@@ -100,24 +100,26 @@ export class FSM {
     _finalize() {
         // establish actual objects corresponding to textual names:
         // names we need to look up / bind are found in transitions: in named target 
-        // state, region names in event specs, and region names in actions.
-        // walk over all the transitions in all the states to get those bound
-        // **** YOUR CODE HERE ****
+        // state, region names in event specs, and region names in actions. 
+        // walk over all the transitions in all the states to get those bound 
+        // **** YOUR CODE HERE **** 
         this.states.forEach((state) => {
             state.transitions.forEach((tran) => {
-                // bind target in transitions 
+                // bind target and regions in transitions 
                 tran.bindTarget(this.states);
+                tran.onEvent.bindRegion(this.regions);
                 // bing the regions to each action 
                 tran.actions.forEach((action) => {
                     action.bindRegion(this.regions);
                 });
             });
         });
-        // start state is the first one
+        // start state is the first one 
         // **** YOUR CODE HERE **** 
-        this._startState = this._currentState = this.states[0];
-        // need to link all regions back to this object as their parent
-        // **** YOUR CODE HERE ****
+        // this._startState = this._currentState = this.states[0]; 
+        this.reset();
+        // need to link all regions back to this object as their parent 
+        // **** YOUR CODE HERE **** 
         this.regions.forEach((reg) => {
             reg.parent = this;
         });
@@ -138,22 +140,34 @@ export class FSM {
     // actions are executed, and the FSM moves to the indicated state).  At that point
     // the event is considered "consumed", and no additional transitions are considered.
     actOnEvent(evtType, reg) {
+        var _a;
         // if we never got the current state bound (maybe a bad json FSM?) bail out
         if (!this.currentState)
             return;
         // **** YOUR CODE HERE ****
-        outerloop: for (const state of this.states) {
-            for (const tran of state.transitions) {
+        if (this.currentState) {
+            // go through all the transitions for the current state     
+            for (const tran of this.currentState.transitions) {
+                // check if the event and region match any transition
                 if (tran.match(evtType, reg)) {
+                    // go through all the actions under this matched transition 
                     for (const action of tran.actions) {
+                        // carry out all of the actions matched to this transition 
                         action.execute(evtType, reg);
                     }
+                    ;
                     // move to the target state after executing the action of the transition 
-                    this._currentState = tran.target;
-                    break outerloop;
+                    if (((_a = this._currentState) === null || _a === void 0 ? void 0 : _a.name) !== tran.targetName) {
+                        this._currentState = tran.target;
+                        // stop the loop as soon as we found a matched transition that changed the current state 
+                        break;
+                    }
+                    ;
                 }
+                ;
             }
         }
+        ;
     }
     //-------------------------------------------------------------------
     // Debugging Support

@@ -132,7 +132,7 @@ export class FSMInteractor {
     // before them in the list.
     pick(localX, localY) {
         let pickList = [];
-        // if we have no FSM, there is nothing to pick
+        // if we have no FSM, there is nothing to pick 
         if (!this.fsm)
             return pickList;
         // **** YOUR CODE HERE ****
@@ -143,7 +143,9 @@ export class FSMInteractor {
             if (regions[i].pick(localX, localY)) {
                 pickList.push(regions[i]);
             }
+            ;
         }
+        ;
         return pickList;
     }
     // Dispatch the given "raw" event by translating it into a series of higher-level
@@ -162,46 +164,50 @@ export class FSMInteractor {
     // in the order listed above.  Within each event type, events associated with the 
     // last drawn region should be dispatched first (i.e., events are delivered in 
     // reverse region drawing order). Note that all generated higher-level events
-    // are dispatched to the FSM (via its actOnEvent() method).
+    // are dispatched to the FSM (via its actOnEvent() method). 
     dispatchRawEvent(what, localX, localY) {
-        // if we have no FSM, there is nothing to dispatch to
+        var _a, _b;
+        // if we have no FSM, there is nothing to dispatch to 
         if (this.fsm === undefined)
             return;
         // **** YOUR CODE HERE ****
         // find the region based on localX and Y 
-        // dispatch in a reverse order (first drawn is the last to dispatch)
+        // dispatch in a reverse order (first drawn is the last to dispatch) 
         let pickList = this.pick(localX, localY);
+        let event = what;
         // first check if we have exited any region 
         // if the last region is not picked anymore, report that we have exited 
         if (this.lastRegion && !pickList.includes(this.lastRegion)) {
             this.fsm.actOnEvent('exit', this.lastRegion);
         }
+        ;
         // then check if we are clicking outside any region 
         // if empty pick list, then only react on release 
-        if (pickList.length === 0 && what === 'release') {
-            console.log('-----------array is empty', pickList);
+        if (what === 'release' && pickList.length === 0) {
             this.fsm.actOnEvent('release_none', undefined);
         }
         ;
-        // translate what to our eventtype based on region 
-        let event;
-        for (const pickReg of pickList) {
-            switch (what) {
-                case 'move':
-                    event = 'move_inside';
-                    break;
-                case 'press':
-                    event = 'press';
-                    break;
-                case 'release':
-                    event = 'release';
-                    break;
+        if (pickList.length !== 0) {
+            for (let i = 0; i < pickList.length; i++) {
+                // only consider the last drawn region for enter
+                if (what === 'move') {
+                    if (i === 0 && ((_a = this.lastRegion) === null || _a === void 0 ? void 0 : _a.name) !== pickList[0].name) {
+                        event = 'enter';
+                    }
+                    else {
+                        // if we are still at our last region 
+                        if (((_b = this.lastRegion) === null || _b === void 0 ? void 0 : _b.name) === pickList[i].name) {
+                            event = 'move_inside';
+                        }
+                        ;
+                    }
+                    ;
+                }
+                this.fsm.actOnEvent(event, pickList[i]);
             }
-            // act on the event that we have translated 
-            this.fsm.actOnEvent(event, pickReg);
+            ;
         }
-        ;
-        // assign the first picked (or last drawn) region to our last region 
+        // assign the first picked (or last drawn) region to our last region for tracking exit region 
         this.lastRegion = pickList[0];
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

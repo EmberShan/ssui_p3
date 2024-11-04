@@ -40,7 +40,7 @@ export type Region_json = {
 export class Region {
     public constructor (
 		name      : string = "", 
-		imageLoc  : string = "",
+		imageLoc  : string = "", 
 		x         : number = 0, 
 		y         : number = 0,
 		w         : number = -1, // -1 here implies we resize based on image
@@ -250,8 +250,8 @@ export class Region {
             (localX >= this.x) &&
             (localX <= this.x + this.w) && 
             (localY >= this.y) &&
-            (localY <= this.y + this.h)  
-        ) {
+            (localY <= this.y + this.h) 
+        ) { 
             return true; 
         }
         return false;

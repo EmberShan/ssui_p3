@@ -21,6 +21,7 @@ export function runTests() {
     test2();
     test3();
     console.log("Test is set up...");
+    custom();
 }
 //-------------------------------------------------------------------
 // Test of building an FSM interactor by initialization in code.  The FSM here
@@ -56,6 +57,14 @@ function test3() {
     let fsmInt = new FSMInteractor(undefined, 400, 0);
     root.addChild(fsmInt);
     fsmInt.startLoadFromJson("./fsm_json/stick.json");
+}
+// custom interactor 
+function custom() {
+    // clicking the right and left buttons will make the character move 
+    console.log('setting up custom interactor');
+    let fsmInt = new FSMInteractor(undefined, 0, 350);
+    root.addChild(fsmInt);
+    fsmInt.startLoadFromJson("./fsm_json/custom.json");
 }
 //-------------------------------------------------------------------
 //# sourceMappingURL=test_cases.js.map

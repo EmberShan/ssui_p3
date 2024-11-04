@@ -24,7 +24,7 @@ export type State_json = {name: string, transitions: Transition_json[]};
 export class State {
     public constructor(name : string, transitions : Transition[]) {
         this._name = name;
-        this._transitions = transitions;
+        this._transitions = transitions; 
     }
 
     // Construct a State from a State_json object, checking all the parts (since data 

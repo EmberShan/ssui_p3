@@ -16,7 +16,7 @@ import { Check } from "./Check.js";
 // This class supports construction from (part of) a .json file using the fromJson() 
 // static method.  This method expects (but dynamically type checks) a Transition_json 
 // typed object which has been reconstructed from json encoded data.
-//===================================================================
+//=================================================================== 
 
 // Simple type we are expecting from a json encoding for an object of this class
 export type Transition_json = {target: string, onEvent: EventSpec_json, actions: Action_json[] };
@@ -36,7 +36,7 @@ export class Transition {
  
     // Construct a Transition from a Transition_json object, checking all the parts 
     // (since data coming from json parsing lives in javascript land and may not actually 
-    // be typed at runtime as we think/hope it is).
+    // be typed at runtime as we think/hope it is). 
     public static fromJson(trans : Transition_json) : Transition {
 
         const targName = Check.stringVal(trans.target, "Transition.fromJson{target:}");
@@ -110,8 +110,8 @@ export class Transition {
             if (this._targetName === state.name){
                 this._target = state; 
                 return; 
-            }
-        }
+            }; 
+        }; 
 
         // no matching state name, so generate an error message
         Err.emit(`State '${this._targetName}' in transition does not match any state.`);

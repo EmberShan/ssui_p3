@@ -145,10 +145,10 @@ export class FSMInteractor {
             // save and restore so coordinates always correspond to parent 
             ctx.save(); 
             // translate based on each region coordinates 
-            ctx.translate(region.x, region.y); 
+            ctx.translate(region.x, region.y);  
             region.draw(ctx, true); 
             ctx.restore(); 
-        });
+        }); 
     }   
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -162,20 +162,21 @@ export class FSMInteractor {
     // earlier in the list) so that the region drawn on top of other objects appear
     // before them in the list.
     public pick(localX : number, localY : number) : Region[] {
-        let pickList :Region[] = [];
+        let pickList : Region[] = [];
 
-        // if we have no FSM, there is nothing to pick
-        if (!this.fsm) return pickList;
+        // if we have no FSM, there is nothing to pick 
+        if (!this.fsm) return pickList; 
            
         // **** YOUR CODE HERE ****
         let regions = this.fsm.regions; 
+
         // loop through the regions in reverse order 
         for (let i = regions.length - 1; i >= 0; i--) {
             // check if the position is within the region 
             if (regions[i].pick(localX, localY)){
                 pickList.push(regions[i]); 
-            }
-        } 
+            }; 
+        };  
 
         return pickList;
     }
@@ -203,50 +204,51 @@ export class FSMInteractor {
     // in the order listed above.  Within each event type, events associated with the 
     // last drawn region should be dispatched first (i.e., events are delivered in 
     // reverse region drawing order). Note that all generated higher-level events
-    // are dispatched to the FSM (via its actOnEvent() method).
+    // are dispatched to the FSM (via its actOnEvent() method). 
     public dispatchRawEvent(what : 'press' | 'move' | 'release', 
                             localX : number, localY : number) 
     {
-        // if we have no FSM, there is nothing to dispatch to
-        if (this.fsm === undefined) return;
+        // if we have no FSM, there is nothing to dispatch to 
+        if (this.fsm === undefined) return; 
 
         // **** YOUR CODE HERE ****
         // find the region based on localX and Y 
-        // dispatch in a reverse order (first drawn is the last to dispatch)
-        let pickList = this.pick(localX, localY);   
+        // dispatch in a reverse order (first drawn is the last to dispatch) 
+        let pickList = this.pick(localX, localY); 
+        
+        let event : EventType = what as EventType; 
         
         // first check if we have exited any region 
         // if the last region is not picked anymore, report that we have exited 
         if (this.lastRegion && !pickList.includes(this.lastRegion)){
             this.fsm.actOnEvent('exit', this.lastRegion); 
-        }
-        
+        }; 
+
         // then check if we are clicking outside any region 
         // if empty pick list, then only react on release 
-        if (pickList.length === 0 && what === 'release'){
-            console.log('-----------array is empty', pickList); 
+        if (what === 'release' && pickList.length === 0){
             this.fsm.actOnEvent('release_none', undefined); 
         }; 
 
-        // translate what to our eventtype based on region 
-        let event : EventType | undefined; 
-        for (const pickReg of pickList){
-            switch (what) {
-                case 'move':
-                    event = 'move_inside'; 
-                    break; 
-                case 'press': 
-                    event = 'press';
-                    break; 
-                case 'release':
-                    event = 'release'
-                    break; 
-            }
-            // act on the event that we have translated 
-            this.fsm.actOnEvent(event as EventType, pickReg); 
-        }; 
+        if (pickList.length !== 0){
+            for (let i = 0; i < pickList.length; i++) {
+                // only consider the last drawn region for enter
+                if (what === 'move'){
+                    if (i === 0 && this.lastRegion?.name !== pickList[0].name){
+                        event = 'enter';
+                    } else {
+                        // if we are still at our last region 
+                        if (this.lastRegion?.name === pickList[i].name){
+                            event = 'move_inside';
+                        }; 
+                    }; 
+                }
+                this.fsm.actOnEvent(event, pickList[i]);
+            }; 
+        }
+        
 
-        // assign the first picked (or last drawn) region to our last region 
+        // assign the first picked (or last drawn) region to our last region for tracking exit region 
         this.lastRegion = pickList[0]; 
         
     }

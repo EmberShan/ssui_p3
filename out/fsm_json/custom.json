@@ -1,0 +1,145 @@
+{
+  "regions": [
+    {
+      "name": "middle_img",
+      "x": 0,
+      "y": 0,
+      "imageLoc": "./images/custom/middle.jpg"
+    },
+
+    { "name": "left_1_img", "x": 0, "y": 0 },
+    { "name": "left_2_img", "x": 0, "y": 0 },
+    { "name": "right_1_img", "x": 0, "y": 0 },
+    { "name": "right_2_img", "x": 0, "y": 0 },
+
+    { "name": "left_btn", "x": 128, "y": 280, "w": 55, "h": 34 },
+    { "name": "right_btn", "x": 194, "y": 280, "w": 55, "h": 34 }
+  ],
+
+  "states": [
+    {
+      "name": "middle",
+      "transitions": [
+        {
+          "onEvent": { "evtType": "press", "region": "left_btn" },
+          "target": "left_1",
+          "actions": [
+            { "act": "clear_image", "region": "middle_img" },
+            {
+              "act": "set_image",
+              "region": "left_1_img",
+              "param": "./images/custom/left_1.jpg"
+            }
+          ]
+        },
+        {
+          "onEvent": { "evtType": "press", "region": "right_btn" },
+          "target": "right_1",
+          "actions": [
+            { "act": "clear_image", "region": "middle_img" },
+            {
+              "act": "set_image",
+              "region": "right_1_img",
+              "param": "./images/custom/right_1.jpg"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "left_1",
+      "transitions": [
+        {
+          "onEvent": { "evtType": "press", "region": "left_btn" },
+          "target": "left_2",
+          "actions": [
+            { "act": "clear_image", "region": "left_1_img" },
+            {
+              "act": "set_image",
+              "region": "left_2_img",
+              "param": "./images/custom/left_2.jpg"
+            }
+          ]
+        },
+        {
+          "onEvent": { "evtType": "press", "region": "right_btn" },
+          "target": "middle",
+          "actions": [
+            { "act": "clear_image", "region": "left_1_img" },
+            {
+              "act": "set_image",
+              "region": "middle_img",
+              "param": "./images/custom/middle.jpg"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "left_2",
+      "transitions": [
+        {
+          "onEvent": { "evtType": "press", "region": "right_btn" },
+          "target": "left_1",
+          "actions": [
+            { "act": "clear_image", "region": "left_2_img" },
+            {
+              "act": "set_image",
+              "region": "left_1_img",
+              "param": "./images/custom/left_1.jpg"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "right_1",
+      "transitions": [
+        {
+          "onEvent": { "evtType": "press", "region": "left_btn" },
+          "target": "middle",
+          "actions": [
+            { "act": "clear_image", "region": "right_1_img" },
+            {
+              "act": "set_image",
+              "region": "middle_img",
+              "param": "./images/custom/middle.jpg"
+            }
+          ]
+        },
+        {
+          "onEvent": { "evtType": "press", "region": "right_btn" },
+          "target": "right_2",
+          "actions": [
+            { "act": "clear_image", "region": "right_2_img" },
+            {
+              "act": "set_image",
+              "region": "right_2_img",
+              "param": "./images/custom/right_2.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "right_2",
+      "transitions": [
+        {
+          "onEvent": { "evtType": "press", "region": "left_btn" },
+          "target": "right_1",
+          "actions": [
+            { "act": "clear_image", "region": "right_2_img" },
+            {
+              "act": "set_image",
+              "region": "right_1_img",
+              "param": "./images/custom/right_1.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

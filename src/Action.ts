@@ -85,20 +85,25 @@ export class Action {
         
         // **** YOUR CODE HERE ****
         if (this._actType === 'print_event'){
-            console.log(this.param, evtType, '(', evtReg?.name, ')')
-        }
-        // test 3
-        if (this._actType === 'clear_image'){
-            console.log('clear image'); 
-        }
-        if (this._actType === 'set_image'){
-            console.log('set image') ; 
-        }
-        if (this._actType === 'print'){
-            console.log('print') ; 
-        }
+            console.log(this.param, evtType, '(', evtReg?.name, ')'); 
+        };  
+
+        // test 3 
+        if (this._actType === 'print') {
+            console.log(this.param); 
+        }; 
+        if (this.onRegion){
+            if (this._actType === 'clear_image'){
+                this.onRegion.imageLoc = ""; 
+            }
+            if (this._actType === 'set_image'){
+                if (evtReg){
+                    this.onRegion.imageLoc = this._param; 
+                }; 
+            }; 
+        }; 
         
-    }
+    }; 
 
      //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     
@@ -109,11 +114,11 @@ export class Action {
         // **** YOUR CODE HERE ****
         // go thru the list and find the matched region name 
         for (const reg of regionList) {
-            if (this.onRegionName === reg.name){
+            if (this._onRegionName === reg.name){
                 this._onRegion =  reg; 
                 return; 
-            }
-        }
+            }; 
+        }; 
         
         // ok to have no matching region for some actions
         if (this.actType === 'none' || this.actType === 'print' || 

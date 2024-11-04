@@ -13,7 +13,7 @@ export class Transition {
     }
     // Construct a Transition from a Transition_json object, checking all the parts 
     // (since data coming from json parsing lives in javascript land and may not actually 
-    // be typed at runtime as we think/hope it is).
+    // be typed at runtime as we think/hope it is). 
     static fromJson(trans) {
         const targName = Check.stringVal(trans.target, "Transition.fromJson{target:}");
         const onevt = EventSpec.fromJson(trans.onEvent);
@@ -61,7 +61,9 @@ export class Transition {
                 this._target = state;
                 return;
             }
+            ;
         }
+        ;
         // no matching state name, so generate an error message
         Err.emit(`State '${this._targetName}' in transition does not match any state.`);
     }

@@ -108,15 +108,23 @@ export class EventSpec {
     // by an event type (evtType) and an optional associated region (regn).  If 
     // our region is undefined and region name is "*", we will match to any region.
     public match(evtType : EventType, regn? : Region) : boolean {
-          
+
         // **** YOUR CODE HERE ****
-        // console.log('matched in eventspec', evtType, regn?.name); 
-        // if (!regn && this._regionName === '*'){}
-        if (regn) {
-            
-        }
         
-        return true;
+        if (this.evtType === 'nevermatch') return false;
+
+        // some events don't need a region 
+        if ((this.evtType === 'release_none') && (typeof regn === 'undefined')){
+            return true; 
+        }; 
+        // either the event type matched or the event is set to any 
+        if ((this.evtType === 'any') || (this._evtType === evtType)){
+            if ((this._regionName === '*') || (this._regionName === regn?.name)) {
+                return true; 
+            }
+        }; 
+
+        return false;
     }
     
     //-------------------------------------------------------------------

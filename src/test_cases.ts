@@ -30,6 +30,8 @@ export function runTests() {
 	test3();
 
 	console.log("Test is set up...");
+
+	custom(); 
 }
 
 //-------------------------------------------------------------------
@@ -73,6 +75,16 @@ function test3() {
 	let fsmInt = new FSMInteractor(undefined, 400,0);
 	root.addChild(fsmInt);
 	fsmInt.startLoadFromJson("./fsm_json/stick.json");
+}
+
+
+// custom interactor 
+function custom() {
+	// clicking the right and left buttons will make the character move 
+	console.log('setting up custom interactor')
+	let fsmInt = new FSMInteractor(undefined, 0, 350);
+	root.addChild(fsmInt);
+	fsmInt.startLoadFromJson("./fsm_json/custom.json");
 }
 
 //-------------------------------------------------------------------
