@@ -197,7 +197,6 @@ export class FSM {
 
         // start state is the first one 
         // **** YOUR CODE HERE **** 
-        // this._startState = this._currentState = this.states[0]; 
         this.reset(); 
         
         // need to link all regions back to this object as their parent 
@@ -244,10 +243,10 @@ export class FSM {
                         action.execute(evtType, reg); 
                     }; 
                     
-                    // move to the target state after executing the action of the transition 
+                    // stop the loop as soon as we found a matched transition that changed the current state 
                     if (this._currentState?.name !== tran.targetName){
+                        // move to the target state after executing the action of the transition 
                         this._currentState = tran.target; 
-                        // stop the loop as soon as we found a matched transition that changed the current state 
                         break; 
                     }; 
                 }; 

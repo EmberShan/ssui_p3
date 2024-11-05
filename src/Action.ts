@@ -92,10 +92,13 @@ export class Action {
         if (this._actType === 'print') {
             console.log(this.param); 
         }; 
+        
         if (this.onRegion){
+            // clear the current region image 
             if (this._actType === 'clear_image'){
                 this.onRegion.imageLoc = ""; 
             }
+            // set the image to our target image 
             if (this._actType === 'set_image'){
                 if (evtReg){
                     this.onRegion.imageLoc = this._param; 

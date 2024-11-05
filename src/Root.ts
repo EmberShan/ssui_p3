@@ -75,7 +75,7 @@ export class Root {
 
             // **** YOUR CODE HERE ****
             let ctx = this.canvasContext; 
-            // clean the canvas here 
+            // clean the canvas  
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight); 
             // save and restore canvas context, translate coordinates, and draw each child 
             for (let ch: number = 0; ch < this._children.length; ch++) {

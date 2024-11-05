@@ -78,12 +78,11 @@ function test3() {
 }
 
 
-// custom interactor 
+// custom interactor: arcade 
 function custom() {
 	// clicking the right and left buttons will make the character move 
-	console.log('setting up custom interactor')
 	let fsmInt = new FSMInteractor(undefined, 0, 350);
-	root.addChild(fsmInt);
+	root.addChild(fsmInt); 
 	fsmInt.startLoadFromJson("./fsm_json/custom.json");
 }
 

@@ -117,8 +117,10 @@ export class EventSpec {
         if ((this.evtType === 'release_none') && (typeof regn === 'undefined')){
             return true; 
         }; 
+        
         // either the event type matched or the event is set to any 
         if ((this.evtType === 'any') || (this._evtType === evtType)){
+            // either the region matched or region can be any region  
             if ((this._regionName === '*') || (this._regionName === regn?.name)) {
                 return true; 
             }

@@ -225,15 +225,17 @@ export class FSMInteractor {
         }; 
 
         // then check if we are clicking outside any region 
-        // if empty pick list, then only react on release 
+        // if empty pick list, then only react on release (release none)
         if (what === 'release' && pickList.length === 0){
             this.fsm.actOnEvent('release_none', undefined); 
         }; 
-
+        
+        // if we have at least one picked region 
         if (pickList.length !== 0){
             for (let i = 0; i < pickList.length; i++) {
-                // only consider the last drawn region for enter
+                // need to differentiate between move_inside and enter 
                 if (what === 'move'){
+                    // only consider the last drawn region for enter
                     if (i === 0 && this.lastRegion?.name !== pickList[0].name){
                         event = 'enter';
                     } else {
@@ -243,10 +245,10 @@ export class FSMInteractor {
                         }; 
                     }; 
                 }
+                // act on all the events bound to all the picked regions 
                 this.fsm.actOnEvent(event, pickList[i]);
             }; 
         }
-        
 
         // assign the first picked (or last drawn) region to our last region for tracking exit region 
         this.lastRegion = pickList[0]; 
